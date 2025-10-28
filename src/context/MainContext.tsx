@@ -34,6 +34,8 @@ type MainContextType = {
   setStatus: React.Dispatch<React.SetStateAction<string>>;
   Schedule: Horarios[];
   setSchedule: React.Dispatch<React.SetStateAction<Horarios[]>>;
+  isCategoriesOpen: boolean;
+  setisCategoriesOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 //aqui você exporta o context tipado ou nulo
@@ -80,6 +82,7 @@ export function MainProvider({ children }: MainProviderProps) {
       tohour: 20,
     },
   ]);
+  const [isCategoriesOpen, setisCategoriesOpen] = useState<boolean>(false);
 
   function floatParaHorario(valor: number): string {
     const hora = Math.floor(valor);
@@ -118,6 +121,8 @@ export function MainProvider({ children }: MainProviderProps) {
         Schedule,
         setSchedule,
         floatParaHorario,
+        isCategoriesOpen,
+        setisCategoriesOpen,
       }}
     >
       {children}
