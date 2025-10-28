@@ -1,23 +1,27 @@
-import { useState, createContext } from "react";
+import { useState, createContext, useRef } from "react";
+import React from "react";
 
 import type { ReactNode } from "react";
 
-//Aqui Você define os tipos que serão usados nos states e funções
-interface Exemple {
-  exemple: string;
-}
 interface Horarios {
   fromday: string;
   today: string;
   fromhour: number;
   tohour: number;
 }
+
+interface Products {
+  id: number;
+  title: string;
+  price: number;
+  description: string;
+  img: string;
+  category: string;
+}
 //aqui voce declara todas os tipos das states e funções que voce criar
 type MainContextType = {
-  exempleList: Exemple[];
-  setexempleList: React.Dispatch<React.SetStateAction<Exemple[]>>;
-  _delete: (id: number) => void;
   floatParaHorario: (valor: number) => string;
+  _filter: (category: string) => Products[];
   teste: string;
   setteste: React.Dispatch<React.SetStateAction<string>>;
   HeaderLogo: string;
@@ -36,6 +40,14 @@ type MainContextType = {
   setSchedule: React.Dispatch<React.SetStateAction<Horarios[]>>;
   isCategoriesOpen: boolean;
   setisCategoriesOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  Categories: string[];
+  setCategories: React.Dispatch<React.SetStateAction<string[]>>;
+  ProductsList: Products[];
+  setProductsList: React.Dispatch<React.SetStateAction<Products[]>>;
+  categoriaRefs: React.MutableRefObject<{
+    [key: string]: React.RefObject<HTMLDivElement | null>;
+  }>;
+  scrollToCategoria: (cat: string) => void;
 };
 
 //aqui você exporta o context tipado ou nulo
@@ -46,9 +58,6 @@ type MainProviderProps = {
 };
 
 export function MainProvider({ children }: MainProviderProps) {
-  const [exempleList, setexempleList] = useState<Exemple[]>([
-    { exemple: "exemplo" },
-  ]);
   const [teste, setteste] = useState<string>("teste");
   const [HeaderLogo, setHeaderLogo] = useState<string>(
     "https://placehold.co/400"
@@ -83,6 +92,213 @@ export function MainProvider({ children }: MainProviderProps) {
     },
   ]);
   const [isCategoriesOpen, setisCategoriesOpen] = useState<boolean>(false);
+  const [Categories, setCategories] = useState<string[]>([
+    "massas",
+    "lanches",
+    "doces",
+    "bebidas",
+    "pizzas",
+    "pasteis",
+    "bolos",
+  ]);
+  const [ProductsList, setProductsList] = useState<Products[]>([
+    {
+      id: 1,
+      title: "Pastel de Carne",
+      price: 10,
+      img: "https://placehold.co/200",
+      description: "Massa crocante recheada com carne moída temperada",
+      category: "pasteis",
+    },
+    {
+      id: 2,
+      title: "Pastel de Queijo",
+      price: 9,
+      img: "https://placehold.co/200",
+      description: "Recheio cremoso de queijo derretido envolto em massa fina",
+      category: "pasteis",
+    },
+    {
+      id: 3,
+      title: "Pastel de Pizza",
+      price: 11,
+      img: "https://placehold.co/200",
+      description: "Mistura de queijo, tomate e orégano em uma massa crocante",
+      category: "pasteis",
+    },
+
+    // 🍕 Pizzas
+    {
+      id: 4,
+      title: "Pizza Calabresa",
+      price: 28,
+      img: "https://placehold.co/200",
+      description: "Calabresa fatiada com cebola e queijo mussarela",
+      category: "pizzas",
+    },
+    {
+      id: 5,
+      title: "Pizza Quatro Queijos",
+      price: 32,
+      img: "https://placehold.co/200",
+      description: "Blend de mussarela, provolone, gorgonzola e parmesão",
+      category: "pizzas",
+    },
+    {
+      id: 6,
+      title: "Pizza Frango com Catupiry",
+      price: 30,
+      img: "https://placehold.co/200",
+      description: "Frango desfiado com catupiry cremoso e queijo",
+      category: "pizzas",
+    },
+
+    // 🍝 Massas
+    {
+      id: 7,
+      title: "Espaguete ao Alho e Óleo",
+      price: 20,
+      img: "https://placehold.co/200",
+      description: "Massa leve com alho dourado e azeite extra virgem",
+      category: "massas",
+    },
+    {
+      id: 8,
+      title: "Ravioli de Ricota",
+      price: 26,
+      img: "https://placehold.co/200",
+      description: "Massa recheada com ricota e molho de tomate fresco",
+      category: "massas",
+    },
+    {
+      id: 9,
+      title: "Fettuccine Alfredo",
+      price: 27,
+      img: "https://placehold.co/200",
+      description: "Massa com molho branco cremoso e parmesão",
+      category: "massas",
+    },
+
+    // 🍔 Lanches
+    {
+      id: 10,
+      title: "X-Bacon",
+      price: 18,
+      img: "https://placehold.co/200",
+      description: "Hambúrguer com bacon crocante, queijo e molho especial",
+      category: "lanches",
+    },
+    {
+      id: 11,
+      title: "Cachorro-Quente Tradicional",
+      price: 12,
+      img: "https://placehold.co/200",
+      description: "Salsicha no pão com molho, batata palha e ketchup",
+      category: "lanches",
+    },
+    {
+      id: 12,
+      title: "Sanduíche Natural",
+      price: 14,
+      img: "https://placehold.co/200",
+      description: "Pão integral com frango, cenoura e maionese leve",
+      category: "lanches",
+    },
+
+    // 🍰 Doces
+    {
+      id: 13,
+      title: "Brigadeiro",
+      price: 4,
+      img: "https://placehold.co/200",
+      description: "Doce de chocolate com leite condensado e granulado",
+      category: "doces",
+    },
+    {
+      id: 14,
+      title: "Beijinho",
+      price: 4,
+      img: "https://placehold.co/200",
+      description: "Doce de coco com leite condensado e açúcar cristal",
+      category: "doces",
+    },
+    {
+      id: 15,
+      title: "Pudim de Leite",
+      price: 10,
+      img: "https://placehold.co/200",
+      description: "Sobremesa cremosa com calda de caramelo",
+      category: "doces",
+    },
+
+    // 🧃 Bebidas
+    {
+      id: 16,
+      title: "Suco de Laranja Natural",
+      price: 8,
+      img: "https://placehold.co/200",
+      description: "Suco fresco espremido na hora, sem açúcar",
+      category: "bebidas",
+    },
+    {
+      id: 17,
+      title: "Refrigerante Cola",
+      price: 6,
+      img: "https://placehold.co/200",
+      description: "Bebida gaseificada sabor cola, 350ml",
+      category: "bebidas",
+    },
+    {
+      id: 18,
+      title: "Água com Gás",
+      price: 5,
+      img: "https://placehold.co/200",
+      description: "Água mineral gaseificada, 500ml",
+      category: "bebidas",
+    },
+
+    // 🎂 Bolos
+    {
+      id: 19,
+      title: "Bolo de Cenoura com Chocolate",
+      price: 20,
+      img: "https://placehold.co/200",
+      description: "Bolo fofinho com cobertura de chocolate cremosa",
+      category: "bolos",
+    },
+    {
+      id: 20,
+      title: "Bolo Red Velvet",
+      price: 24,
+      img: "https://placehold.co/200",
+      description: "Bolo vermelho com recheio de cream cheese",
+      category: "bolos",
+    },
+    {
+      id: 21,
+      title: "Bolo de Coco Gelado",
+      price: 22,
+      img: "https://placehold.co/200",
+      description: "Bolo molhadinho com leite condensado e coco ralado",
+      category: "bolos",
+    },
+  ]);
+
+  const categoriaRefs = useRef<{
+    [key: string]: React.RefObject<HTMLDivElement | null>;
+  }>(
+    Categories.reduce((acc, cat) => {
+      acc[cat] = React.createRef<HTMLDivElement>();
+      return acc;
+    }, {} as { [key: string]: React.RefObject<HTMLDivElement | null> })
+  );
+
+  const scrollToCategoria = (cat: string) => {
+    const ref = categoriaRefs.current[cat];
+    if (ref?.current) {
+      ref.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   function floatParaHorario(valor: number): string {
     const hora = Math.floor(valor);
@@ -94,16 +310,13 @@ export function MainProvider({ children }: MainProviderProps) {
     return `${h}:${m}`;
   }
 
-  function _delete(id: number) {
-    console.log("deletado" + id);
+  function _filter(category: string) {
+    const filtred = ProductsList.filter((a) => a.category === category);
+    return filtred;
   }
-
   return (
     <mainContext.Provider
       value={{
-        exempleList,
-        setexempleList,
-        _delete,
         teste,
         setteste,
         HeaderLogo,
@@ -123,6 +336,13 @@ export function MainProvider({ children }: MainProviderProps) {
         floatParaHorario,
         isCategoriesOpen,
         setisCategoriesOpen,
+        Categories,
+        setCategories,
+        ProductsList,
+        setProductsList,
+        _filter,
+        categoriaRefs,
+        scrollToCategoria,
       }}
     >
       {children}

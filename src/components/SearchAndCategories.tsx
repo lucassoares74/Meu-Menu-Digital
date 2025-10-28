@@ -4,8 +4,15 @@ import { ArrowDown } from "lucide-react";
 
 function SearchAndCategories() {
   const contexto = useContext(mainContext);
+
   if (!contexto) return null;
-  const { isCategoriesOpen, setisCategoriesOpen } = contexto;
+  const {
+    isCategoriesOpen,
+    setisCategoriesOpen,
+    Categories,
+    scrollToCategoria,
+  } = contexto;
+
   return (
     <div className="flex flex-col gap-4">
       <div>
@@ -19,12 +26,20 @@ function SearchAndCategories() {
         <h1 className="poppins  text-2xl">Categorias</h1>
       </div>
       <div className="flex flex-col gap-4">
-        <ul className="lg:flex gap-8 justify-center text-[18px] hidden ">
-          <li>Massas</li>
-          <li>lanches</li>
-          <li>doces</li>
-          <li>Massas</li>
-          <li>lanches</li>
+        <ul className="lg:flex gap-8 justify-center text-[18px] hidden">
+          {Categories.map((a, i) => {
+            if (i < 5) {
+              return (
+                <li
+                  onClick={() => {
+                    scrollToCategoria(a);
+                  }}
+                >
+                  {a}
+                </li>
+              );
+            }
+          })}
         </ul>
         <div className="flex flex-col gap-1">
           <div className="border rounded-md flex justify-center">
@@ -45,12 +60,15 @@ function SearchAndCategories() {
           </div>
           <div className={isCategoriesOpen ? "" : "hidden"}>
             <ul className="flex flex-col gap-2 items-center text-[18px] border rounded-md">
-              <li>Massas</li>
-              <li>lanches</li>
-              <li>doces</li>
-              <li>bebidas</li>
-              <li>pasteis</li>
-              <li>outros...</li>
+              {Categories.map((a) => (
+                <li
+                  onClick={() => {
+                    scrollToCategoria(a);
+                  }}
+                >
+                  {a}
+                </li>
+              ))}
             </ul>
           </div>
         </div>

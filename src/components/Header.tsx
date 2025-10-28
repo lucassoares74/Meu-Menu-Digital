@@ -48,7 +48,7 @@ function Header() {
               onClick={() => {
                 setisScheduleOpen(!isScheduleOpen);
               }}
-              className="flex justify-center w-full gap-2 border rounded-md hover:bg-amber-300 poppins"
+              className="flex justify-center w-full gap-2 border rounded-md  poppins"
             >
               {!isScheduleOpen ? (
                 <>
