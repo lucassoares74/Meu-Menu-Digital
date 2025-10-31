@@ -51,6 +51,10 @@ type MainContextType = {
   isCategoriesVisible: boolean;
   setisCategoriesVisible: React.Dispatch<React.SetStateAction<boolean>>;
   refCategoriesVisibily: React.RefObject<HTMLDivElement | null>;
+  isSingleOpen: boolean;
+  setisSingleOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  singleTempId: number;
+  setsingleTempId: React.Dispatch<React.SetStateAction<number>>;
 };
 
 //aqui você exporta o context tipado ou nulo
@@ -340,6 +344,22 @@ export function MainProvider({ children }: MainProviderProps) {
       observer.unobserve(target);
     };
   }, []);
+  const [isSingleOpen, setisSingleOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (isSingleOpen) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+
+    // Cleanup opcional para garantir que o scroll seja reativado ao desmontar
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, [isSingleOpen]);
+
+  const [singleTempId, setsingleTempId] = useState<number>(0);
 
   return (
     <mainContext.Provider
@@ -373,6 +393,10 @@ export function MainProvider({ children }: MainProviderProps) {
         isCategoriesVisible,
         setisCategoriesVisible,
         refCategoriesVisibily,
+        isSingleOpen,
+        setisSingleOpen,
+        singleTempId,
+        setsingleTempId,
       }}
     >
       {children}

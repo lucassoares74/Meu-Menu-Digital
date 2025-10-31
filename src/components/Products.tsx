@@ -4,7 +4,13 @@ import { useContext } from "react";
 function Products() {
   const contexto = useContext(mainContext);
   if (!contexto) return null;
-  const { Categories, _filter, categoriaRefs } = contexto;
+  const {
+    Categories,
+    _filter,
+    categoriaRefs,
+    setsingleTempId,
+    setisSingleOpen,
+  } = contexto;
   return (
     <div>
       <ul>
@@ -18,7 +24,13 @@ function Products() {
                 <ul className="grid md:grid-cols-2 gap-2">
                   {_filter(a).map((b) => {
                     return (
-                      <li className="border rounded-md p-1">
+                      <li
+                        onClick={() => {
+                          setsingleTempId(b.id);
+                          setisSingleOpen(true);
+                        }}
+                        className="border rounded-md p-1"
+                      >
                         <div className="flex gap-1">
                           <div>
                             <img className="" src={b.img} alt="" />
