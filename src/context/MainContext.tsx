@@ -1,4 +1,4 @@
-import { useState, createContext, useRef } from "react";
+import { useState, createContext, useRef, useEffect } from "react";
 import React from "react";
 
 import type { ReactNode } from "react";
@@ -48,6 +48,9 @@ type MainContextType = {
     [key: string]: React.RefObject<HTMLDivElement | null>;
   }>;
   scrollToCategoria: (cat: string) => void;
+  isCategoriesVisible: boolean;
+  setisCategoriesVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  refCategoriesVisibily: React.RefObject<HTMLDivElement | null>;
 };
 
 //aqui você exporta o context tipado ou nulo
@@ -314,6 +317,30 @@ export function MainProvider({ children }: MainProviderProps) {
     const filtred = ProductsList.filter((a) => a.category === category);
     return filtred;
   }
+
+  const [isCategoriesVisible, setisCategoriesVisible] = useState<boolean>(true);
+  const refCategoriesVisibily = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const target = refCategoriesVisibily.current;
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setisCategoriesVisible(entry.isIntersecting);
+      },
+      {
+        threshold: 0.1, // 10% visibilidade
+      }
+    );
+
+    observer.observe(target);
+
+    return () => {
+      observer.unobserve(target);
+    };
+  }, []);
+
   return (
     <mainContext.Provider
       value={{
@@ -343,6 +370,9 @@ export function MainProvider({ children }: MainProviderProps) {
         _filter,
         categoriaRefs,
         scrollToCategoria,
+        isCategoriesVisible,
+        setisCategoriesVisible,
+        refCategoriesVisibily,
       }}
     >
       {children}

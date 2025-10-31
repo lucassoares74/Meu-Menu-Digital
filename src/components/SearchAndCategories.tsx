@@ -11,6 +11,7 @@ function SearchAndCategories() {
     setisCategoriesOpen,
     Categories,
     scrollToCategoria,
+    refCategoriesVisibily,
   } = contexto;
 
   return (
@@ -22,9 +23,10 @@ function SearchAndCategories() {
           placeholder="Pesquisar..."
         />
       </div>
-      <div>
+      <div ref={refCategoriesVisibily}>
         <h1 className="poppins  text-2xl">Categorias</h1>
       </div>
+
       <div className="flex flex-col gap-4">
         <ul className="lg:flex gap-8 justify-center text-[18px] hidden">
           {Categories.map((a, i) => {
