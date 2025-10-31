@@ -7,8 +7,8 @@ function StickCategories() {
   const { Categories, scrollToCategoria, isCategoriesVisible } = contexto;
   if (isCategoriesVisible) return null;
   return (
-    <div className="p-6 sticky left-0 top-0 w-full border rounded-md bg-white">
-      <ul className="flex gap-6 w-full md:justify-center poppins overflow-x-auto whitespace-nowrap">
+    <div className=" sticky left-0 top-0 justify-center flex">
+      <ul className="flex gap-6 md:w-[50%] md:justify-center poppins overflow-x-auto whitespace-nowrap border p-2 bg-white rounded-md">
         {Categories.map((a) => (
           <li
             onClick={() => {
