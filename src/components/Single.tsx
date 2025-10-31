@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { mainContext } from "./../context/MainContext";
-import { ArrowDown, Divide } from "lucide-react";
+import { ArrowDown} from "lucide-react";
 
 function Single() {
   const contexto = useContext(mainContext);
