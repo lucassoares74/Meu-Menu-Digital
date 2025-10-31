@@ -344,6 +344,7 @@ export function MainProvider({ children }: MainProviderProps) {
       observer.unobserve(target);
     };
   }, []);
+  
   const [isSingleOpen, setisSingleOpen] = useState<boolean>(false);
 
   useEffect(() => {
