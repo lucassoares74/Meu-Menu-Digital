@@ -55,6 +55,8 @@ type MainContextType = {
   setisSingleOpen: React.Dispatch<React.SetStateAction<boolean>>;
   singleTempId: number;
   setsingleTempId: React.Dispatch<React.SetStateAction<number>>;
+  searchValue: string;
+  setsearchValue: React.Dispatch<React.SetStateAction<string>>;
 };
 
 //aqui você exporta o context tipado ou nulo
@@ -344,7 +346,7 @@ export function MainProvider({ children }: MainProviderProps) {
       observer.unobserve(target);
     };
   }, []);
-  
+
   const [isSingleOpen, setisSingleOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -361,6 +363,8 @@ export function MainProvider({ children }: MainProviderProps) {
   }, [isSingleOpen]);
 
   const [singleTempId, setsingleTempId] = useState<number>(0);
+
+  const [searchValue, setsearchValue] = useState<string>("");
 
   return (
     <mainContext.Provider
@@ -398,6 +402,8 @@ export function MainProvider({ children }: MainProviderProps) {
         setisSingleOpen,
         singleTempId,
         setsingleTempId,
+        searchValue,
+        setsearchValue,
       }}
     >
       {children}

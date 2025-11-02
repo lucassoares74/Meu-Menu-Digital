@@ -12,12 +12,16 @@ function SearchAndCategories() {
     Categories,
     scrollToCategoria,
     refCategoriesVisibily,
+    setsearchValue,
   } = contexto;
 
   return (
     <div className="flex flex-col gap-4">
       <div>
         <input
+          onChange={(event) => {
+            setsearchValue(event.target.value);
+          }}
           className="border w-full rounded-full p-1"
           type="text"
           placeholder="Pesquisar..."
@@ -34,6 +38,7 @@ function SearchAndCategories() {
               return (
                 <li
                   onClick={() => {
+                    setsearchValue("");
                     scrollToCategoria(a);
                   }}
                 >
@@ -65,6 +70,7 @@ function SearchAndCategories() {
               {Categories.map((a) => (
                 <li
                   onClick={() => {
+                    setsearchValue("");
                     scrollToCategoria(a);
                   }}
                 >
