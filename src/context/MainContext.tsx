@@ -9,6 +9,11 @@ interface Horarios {
   fromhour: number;
   tohour: number;
 }
+interface adicionais {
+  title: string;
+  value: number;
+  limit: number;
+}
 
 interface Products {
   id: number;
@@ -17,6 +22,10 @@ interface Products {
   description: string;
   img: string;
   category: string;
+  needaddone: boolean;
+  needaddtwo: boolean;
+  addsone?: adicionais[];
+  addstwo?: adicionais[];
 }
 //aqui voce declara todas os tipos das states e funções que voce criar
 type MainContextType = {
@@ -118,6 +127,16 @@ export function MainProvider({ children }: MainProviderProps) {
       img: "https://placehold.co/200",
       description: "Massa crocante recheada com carne moída temperada",
       category: "pasteis",
+      needaddone: true,
+      needaddtwo: true,
+      addsone: [
+        { title: "Catupiry", value: 2, limit: 1 },
+        { title: "Queijo extra", value: 1.5, limit: 1 },
+      ],
+      addstwo: [
+        { title: "Molho de alho", value: 0.5, limit: 1 },
+        { title: "Molho picante", value: 0.5, limit: 1 },
+      ],
     },
     {
       id: 2,
@@ -126,6 +145,12 @@ export function MainProvider({ children }: MainProviderProps) {
       img: "https://placehold.co/200",
       description: "Recheio cremoso de queijo derretido envolto em massa fina",
       category: "pasteis",
+      needaddone: true,
+      needaddtwo: false,
+      addsone: [
+        { title: "Orégano extra", value: 0.5, limit: 1 },
+        { title: "Molho especial", value: 1, limit: 1 },
+      ],
     },
     {
       id: 3,
@@ -134,6 +159,12 @@ export function MainProvider({ children }: MainProviderProps) {
       img: "https://placehold.co/200",
       description: "Mistura de queijo, tomate e orégano em uma massa crocante",
       category: "pasteis",
+      needaddone: true,
+      needaddtwo: false,
+      addsone: [
+        { title: "Azeitona", value: 0.5, limit: 1 },
+        { title: "Catupiry", value: 2, limit: 1 },
+      ],
     },
 
     // 🍕 Pizzas
@@ -144,6 +175,12 @@ export function MainProvider({ children }: MainProviderProps) {
       img: "https://placehold.co/200",
       description: "Calabresa fatiada com cebola e queijo mussarela",
       category: "pizzas",
+      needaddone: true,
+      needaddtwo: false,
+      addsone: [
+        { title: "Borda recheada", value: 4, limit: 1 },
+        { title: "Extra queijo", value: 3, limit: 1 },
+      ],
     },
     {
       id: 5,
@@ -152,6 +189,12 @@ export function MainProvider({ children }: MainProviderProps) {
       img: "https://placehold.co/200",
       description: "Blend de mussarela, provolone, gorgonzola e parmesão",
       category: "pizzas",
+      needaddone: true,
+      needaddtwo: false,
+      addsone: [
+        { title: "Borda catupiry", value: 4, limit: 1 },
+        { title: "Molho extra", value: 1, limit: 1 },
+      ],
     },
     {
       id: 6,
@@ -160,6 +203,12 @@ export function MainProvider({ children }: MainProviderProps) {
       img: "https://placehold.co/200",
       description: "Frango desfiado com catupiry cremoso e queijo",
       category: "pizzas",
+      needaddone: true,
+      needaddtwo: false,
+      addsone: [
+        { title: "Borda cheddar", value: 4, limit: 1 },
+        { title: "Azeitona", value: 1, limit: 1 },
+      ],
     },
 
     // 🍝 Massas
@@ -170,6 +219,12 @@ export function MainProvider({ children }: MainProviderProps) {
       img: "https://placehold.co/200",
       description: "Massa leve com alho dourado e azeite extra virgem",
       category: "massas",
+      needaddone: true,
+      needaddtwo: false,
+      addsone: [
+        { title: "Parmesão ralado", value: 2, limit: 1 },
+        { title: "Pimenta calabresa", value: 0.5, limit: 1 },
+      ],
     },
     {
       id: 8,
@@ -178,6 +233,12 @@ export function MainProvider({ children }: MainProviderProps) {
       img: "https://placehold.co/200",
       description: "Massa recheada com ricota e molho de tomate fresco",
       category: "massas",
+      needaddone: true,
+      needaddtwo: false,
+      addsone: [
+        { title: "Molho extra", value: 2, limit: 1 },
+        { title: "Parmesão", value: 1.5, limit: 1 },
+      ],
     },
     {
       id: 9,
@@ -186,6 +247,12 @@ export function MainProvider({ children }: MainProviderProps) {
       img: "https://placehold.co/200",
       description: "Massa com molho branco cremoso e parmesão",
       category: "massas",
+      needaddone: true,
+      needaddtwo: false,
+      addsone: [
+        { title: "Frango grelhado", value: 5, limit: 1 },
+        { title: "Bacon", value: 3, limit: 1 },
+      ],
     },
 
     // 🍔 Lanches
@@ -196,6 +263,12 @@ export function MainProvider({ children }: MainProviderProps) {
       img: "https://placehold.co/200",
       description: "Hambúrguer com bacon crocante, queijo e molho especial",
       category: "lanches",
+      needaddone: true,
+      needaddtwo: false,
+      addsone: [
+        { title: "Batata frita", value: 5, limit: 1 },
+        { title: "Molho extra", value: 1, limit: 1 },
+      ],
     },
     {
       id: 11,
@@ -204,6 +277,12 @@ export function MainProvider({ children }: MainProviderProps) {
       img: "https://placehold.co/200",
       description: "Salsicha no pão com molho, batata palha e ketchup",
       category: "lanches",
+      needaddone: true,
+      needaddtwo: false,
+      addsone: [
+        { title: "Maionese caseira", value: 1, limit: 1 },
+        { title: "Molho barbecue", value: 1, limit: 1 },
+      ],
     },
     {
       id: 12,
@@ -212,6 +291,16 @@ export function MainProvider({ children }: MainProviderProps) {
       img: "https://placehold.co/200",
       description: "Pão integral com frango, cenoura e maionese leve",
       category: "lanches",
+      needaddone: true,
+      needaddtwo: true,
+      addsone: [
+        { title: "Suco natural combo", value: 5, limit: 1 },
+        { title: "Salada extra", value: 2, limit: 1 },
+      ],
+      addstwo: [
+        { title: "Pão integral", value: 0, limit: 1 },
+        { title: "Pão tradicional", value: 0, limit: 1 },
+      ],
     },
 
     // 🍰 Doces
@@ -222,6 +311,8 @@ export function MainProvider({ children }: MainProviderProps) {
       img: "https://placehold.co/200",
       description: "Doce de chocolate com leite condensado e granulado",
       category: "doces",
+      needaddone: false,
+      needaddtwo: false,
     },
     {
       id: 14,
@@ -230,6 +321,8 @@ export function MainProvider({ children }: MainProviderProps) {
       img: "https://placehold.co/200",
       description: "Doce de coco com leite condensado e açúcar cristal",
       category: "doces",
+      needaddone: false,
+      needaddtwo: false,
     },
     {
       id: 15,
@@ -238,6 +331,8 @@ export function MainProvider({ children }: MainProviderProps) {
       img: "https://placehold.co/200",
       description: "Sobremesa cremosa com calda de caramelo",
       category: "doces",
+      needaddone: false,
+      needaddtwo: false,
     },
 
     // 🧃 Bebidas
@@ -248,6 +343,12 @@ export function MainProvider({ children }: MainProviderProps) {
       img: "https://placehold.co/200",
       description: "Suco fresco espremido na hora, sem açúcar",
       category: "bebidas",
+      needaddone: true,
+      needaddtwo: false,
+      addsone: [
+        { title: "Gelo extra", value: 0, limit: 1 },
+        { title: "Açúcar", value: 0, limit: 1 },
+      ],
     },
     {
       id: 17,
@@ -256,6 +357,8 @@ export function MainProvider({ children }: MainProviderProps) {
       img: "https://placehold.co/200",
       description: "Bebida gaseificada sabor cola, 350ml",
       category: "bebidas",
+      needaddone: false,
+      needaddtwo: false,
     },
     {
       id: 18,
@@ -264,6 +367,8 @@ export function MainProvider({ children }: MainProviderProps) {
       img: "https://placehold.co/200",
       description: "Água mineral gaseificada, 500ml",
       category: "bebidas",
+      needaddone: false,
+      needaddtwo: false,
     },
 
     // 🎂 Bolos
@@ -274,6 +379,8 @@ export function MainProvider({ children }: MainProviderProps) {
       img: "https://placehold.co/200",
       description: "Bolo fofinho com cobertura de chocolate cremosa",
       category: "bolos",
+      needaddone: false,
+      needaddtwo: false,
     },
     {
       id: 20,
@@ -282,6 +389,8 @@ export function MainProvider({ children }: MainProviderProps) {
       img: "https://placehold.co/200",
       description: "Bolo vermelho com recheio de cream cheese",
       category: "bolos",
+      needaddone: false,
+      needaddtwo: false,
     },
     {
       id: 21,
@@ -290,6 +399,8 @@ export function MainProvider({ children }: MainProviderProps) {
       img: "https://placehold.co/200",
       description: "Bolo molhadinho com leite condensado e coco ralado",
       category: "bolos",
+      needaddone: false,
+      needaddtwo: false,
     },
   ]);
 

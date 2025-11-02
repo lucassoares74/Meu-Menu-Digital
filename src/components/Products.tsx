@@ -73,7 +73,13 @@ function Products() {
             a.title.toLowerCase().includes(searchValue.toLowerCase())
           ).map((a) => {
             return (
-              <li className="border rounded-md p-1">
+              <li
+                onClick={() => {
+                  setsingleTempId(a.id);
+                  setisSingleOpen(true);
+                }}
+                className="border rounded-md p-1"
+              >
                 <div className="flex gap-1">
                   <div>
                     <img className="" src={a.img} alt="" />

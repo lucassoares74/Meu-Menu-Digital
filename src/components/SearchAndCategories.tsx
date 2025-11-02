@@ -38,7 +38,12 @@ function SearchAndCategories() {
               return (
                 <li
                   onClick={() => {
-                    setsearchValue("");
+                    if (setsearchValue) {
+                      setsearchValue("");
+                      setTimeout(() => {
+                        scrollToCategoria(a);
+                      }, 100);
+                    }
                     scrollToCategoria(a);
                   }}
                 >
@@ -70,7 +75,12 @@ function SearchAndCategories() {
               {Categories.map((a) => (
                 <li
                   onClick={() => {
-                    setsearchValue("");
+                    if (setsearchValue) {
+                      setsearchValue("");
+                      setTimeout(() => {
+                        scrollToCategoria(a);
+                      }, 100);
+                    }
                     scrollToCategoria(a);
                   }}
                 >
