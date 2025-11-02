@@ -12,7 +12,7 @@ function Single() {
     <div className={isSingleOpen ? "flex justify-center" : "hidden"}>
       <div className="fixed inset-0 bg-black/30 z-40 pointer-events-none"></div>
 
-      <div className="bg-white border rounded-md p-6 fixed bottom-0 md:w-[50%] z-50 flex flex-col gap-8 overflow-y-auto max-h-[80vh]">
+      <div className="bg-white border rounded-md p-6 fixed bottom-0 md:w-[50%] z-50 flex flex-col gap-8 overflow-y-auto max-h-screen">
         <div className="flex justify-center">
           <button onClick={() => setisSingleOpen(false)}>
             <ArrowDown></ArrowDown>
