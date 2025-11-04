@@ -1,12 +1,22 @@
 import { useContext } from "react";
 import { mainContext } from "./../context/MainContext";
-import { ArrowDown } from "lucide-react";
+import { ArrowDown, Plus, Minus } from "lucide-react";
 
 function Single() {
   const contexto = useContext(mainContext);
   if (!contexto) return null;
-  const { isSingleOpen, setisSingleOpen, singleTempId, ProductsList } =
-    contexto;
+  const {
+    isSingleOpen,
+    setisSingleOpen,
+    singleTempId,
+    ProductsList,
+    singleTempQnt,
+    setsingleTempQnt,
+    setsingleTempValue,
+    singleTempValue,
+    setsingleTempAdds,
+    singleTempAdds,
+  } = contexto;
 
   return (
     <div className={isSingleOpen ? "flex justify-center" : "hidden"}>
@@ -41,7 +51,21 @@ function Single() {
                     {b.addsone?.map((a) => {
                       return (
                         <div className="flex gap-2">
-                          <input type="checkbox" />
+                          <input
+                            onChange={(event) => {
+                              if (event.target.checked) {
+                                setsingleTempValue((prev) => prev + a.value);
+                                setsingleTempAdds((prev) => [...prev, a.title]);
+                              } else {
+                                setsingleTempValue((prev) => prev - a.value);
+                                setsingleTempAdds((prev) =>
+                                  prev.filter((item) => item !== a.title)
+                                );
+                              }
+                              console.log(singleTempAdds);
+                            }}
+                            type="checkbox"
+                          />
                           <h1 className="poppins">{a.title}</h1>
                           <h1>
                             {a.value.toLocaleString("pt-BR", {
@@ -63,7 +87,24 @@ function Single() {
                       {b.addstwo?.map((a) => {
                         return (
                           <div className="flex gap-2">
-                            <input type="checkbox" />
+                            <input
+                              onChange={(event) => {
+                                if (event.target.checked) {
+                                  setsingleTempValue((prev) => prev + a.value);
+                                  setsingleTempAdds((prev) => [
+                                    ...prev,
+                                    a.title,
+                                  ]);
+                                } else {
+                                  setsingleTempValue((prev) => prev - a.value);
+                                  setsingleTempAdds((prev) =>
+                                    prev.filter((item) => item !== a.title)
+                                  );
+                                }
+                                console.log(singleTempAdds);
+                              }}
+                              type="checkbox"
+                            />
                             <h1 className="poppins">{a.title}</h1>
                             <h1>
                               {a.value.toLocaleString("pt-BR", {
@@ -80,6 +121,41 @@ function Single() {
                 <div>
                   <h1 className="text-gray-400">Observações:</h1>
                   <textarea className="border rounded-md w-full h-full text-start" />
+                </div>
+                <div className="flex">
+                  <div className="flex gap-2 border rounded-md">
+                    <button
+                      onClick={() => setsingleTempQnt((prev) => prev + 1)}
+                    >
+                      <Plus />
+                    </button>
+                    <h1>{singleTempQnt}</h1>
+                    <button
+                      onClick={() =>
+                        singleTempQnt > 1
+                          ? setsingleTempQnt((prev) => prev - 1)
+                          : console.log("menor")
+                      }
+                    >
+                      <Minus />
+                    </button>
+                  </div>
+                  <div className="flex justify-end w-full">
+                    <div>
+                      <button className="border rounded-md poppins flex gap-10">
+                        Adicionar
+                        <h1>
+                          {(
+                            (b.price + singleTempValue) *
+                            singleTempQnt
+                          ).toLocaleString("pt-BR", {
+                            style: "currency",
+                            currency: "BRL",
+                          })}
+                        </h1>
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             );

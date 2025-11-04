@@ -66,6 +66,12 @@ type MainContextType = {
   setsingleTempId: React.Dispatch<React.SetStateAction<number>>;
   searchValue: string;
   setsearchValue: React.Dispatch<React.SetStateAction<string>>;
+  singleTempQnt: number;
+  setsingleTempQnt: React.Dispatch<React.SetStateAction<number>>;
+  singleTempValue: number;
+  setsingleTempValue: React.Dispatch<React.SetStateAction<number>>;
+  singleTempAdds: string[];
+  setsingleTempAdds: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
 //aqui você exporta o context tipado ou nulo
@@ -477,6 +483,10 @@ export function MainProvider({ children }: MainProviderProps) {
 
   const [searchValue, setsearchValue] = useState<string>("");
 
+  const [singleTempQnt, setsingleTempQnt] = useState<number>(1);
+  const [singleTempValue, setsingleTempValue] = useState<number>(0);
+  const [singleTempAdds, setsingleTempAdds] = useState<string[]>([]);
+
   return (
     <mainContext.Provider
       value={{
@@ -515,6 +525,12 @@ export function MainProvider({ children }: MainProviderProps) {
         setsingleTempId,
         searchValue,
         setsearchValue,
+        singleTempQnt,
+        setsingleTempQnt,
+        singleTempValue,
+        setsingleTempValue,
+        singleTempAdds,
+        setsingleTempAdds,
       }}
     >
       {children}
